@@ -6,57 +6,54 @@ package models;
 @Name = "bk_dalian";
 
 Table auth {
-  Column id INT(11) NOT NULL AUTO_INCREMENT,
-  Column username VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  Column password VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  Column phone VARCHAR(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  Column id INT(11) NOT NULL AUTO_INCREMENT UNIQUE,
+  Column username VARCHAR(255) NOT NULL UNIQUE,
+  Column password VARCHAR(255) NOT NULL,
+  Column phone VARCHAR(16) NOT NULL,
   Column status INT(11) NOT NULL DEFAULT '0',
-  Column sessionid VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  Column sessionid VARCHAR(255) DEFAULT NULL,
   Column expire_time DATETIME DEFAULT NULL,
-  Column email VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  Column email VARCHAR(255) NOT NULL UNIQUE,
   Column create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   Column last_login_time TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY id,
-  UNIQUE KEY (username),
-  UNIQUE KEY (phone),
-  UNIQUE KEY (email),
-  UNIQUE KEY (sessionid),
+  PRIMARY KEY phone,
 };
 
 Table book {
-    Column id INT(11) NOT NULL AUTO_INCREMENT,
+    Column id INT(11) NOT NULL AUTO_INCREMENT UNIQUE,
     Column isbn VARCHAR(255) NOT NULL,
     Column volume INT(11) NOT NULL,
-    Column unique_code VARCHAR(255) NOT NULL UNIQUE,
-    PRIMARY KEY id,
+    Column unique_code VARCHAR(255) NOT NULL,
+    PRIMARY KEY unique_code,
     UNIQUE KEY (isbn, volume),
     ForeignKey book_info isbn isbn,
 };
 
 Table book_info {
-  Column id INT(11) NOT NULL AUTO_INCREMENT,
-  Column title VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  Column id INT(11) NOT NULL AUTO_INCREMENT UNIQUE,
+  Column title VARCHAR(255) NOT NULL,
   Column price INT(11) DEFAULT NULL,
-  Column author VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  Column publisher VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  Column series VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  Column isbn VARCHAR(255) UNIQUE COLLATE utf8mb4_unicode_ci DEFAULT NULL ,
+  Column author VARCHAR(255) DEFAULT NULL,
+  Column publisher VARCHAR(255) DEFAULT NULL,
+  Column series VARCHAR(255) DEFAULT NULL,
+  Column isbn VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci ,
   Column publish_date DATE DEFAULT NULL,
-  Column binding VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  Column format VARCHAR(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  Column binding VARCHAR(255) DEFAULT NULL,
+  Column format VARCHAR(255) DEFAULT NULL,
   Column pages INT(11) DEFAULT NULL,
   Column word_count INT(11) DEFAULT NULL,
-  Column content_intro TEXT COLLATE utf8mb4_unicode_ci,
-  Column author_intro TEXT COLLATE utf8mb4_unicode_ci,
-  Column menu TEXT COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY id,
+  Column content_intro TEXT,
+  Column author_intro TEXT,
+  Column menu TEXT,
+  PRIMARY KEY isbn,
   ManyToMany tag isbn id,
 };
 
+
 Table tag {
-  Column id INT(11) NOT NULL AUTO_INCREMENT,
+  Column id INT(11) NOT NULL AUTO_INCREMENT UNIQUE,
   Column tag VARCHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY id,
+  PRIMARY KEY tag,
 };
 
 
